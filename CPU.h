@@ -6,13 +6,23 @@
 #define GVM2_CPU_H
 
 
+#include "Motherboard.h"
+
 class CPU
 {
 public:
     explicit CPU(bool debug = false);
-    int major = 0;
-    int minor = 1;
+    const unsigned int major = 0;
+    const unsigned int minor = 1;
 
+    Motherboard *motherboard = nullptr;
+
+    const unsigned long OF = 1L << 3;
+    const unsigned long CF = 1L << 2;
+    const unsigned long ZF = 1L << 1;
+    const unsigned long PF = 1L << 0;
+
+    void run(unsigned long ip);
 
     void dump();
 

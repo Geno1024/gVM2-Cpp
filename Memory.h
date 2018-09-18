@@ -6,10 +6,15 @@
 #define GVM2_MEMORY_H
 
 
+#include "Motherboard.h"
+
 class Memory
 {
 public:
     explicit Memory(long size);
+
+    Motherboard *motherboard = nullptr;
+
     char read1(long pos);
     void write1(long pos, char data);
     int read4(long pos);

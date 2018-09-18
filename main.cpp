@@ -1,6 +1,8 @@
 #include <iostream>
 #include "Memory.h"
 #include "CPU.h"
+#include "util.h"
+#include "Motherboard.h"
 
 int main()
 {
@@ -11,6 +13,10 @@ int main()
     memory.write8(24, 0x58595A5B5C5D5E5F);
     memory.dump(1, 32);
     auto cpu = CPU();
-    printf("%d", cpu.minor);
+    cpu.dump();
+
+    auto motherboard = Motherboard();
+    motherboard.cpu = &cpu;
+
     return 0;
 }
