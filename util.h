@@ -9,7 +9,14 @@
 class util
 {
 public:
-    static char *printf_binary(long l);
+    // Converts from unsigned long to binary string.
+    static char *binary(unsigned long l);
+
+    // Force VM to exit. Emergency situation?
+    static char force_exit(int status, const char *message) __attribute__ ((__noreturn__));
+
+    // Check bitwise parity of input.
+    static bool parity(unsigned long l);
 
 private:
     static char alloc[64];

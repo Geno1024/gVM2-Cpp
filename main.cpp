@@ -1,22 +1,23 @@
 #include <iostream>
-#include "Memory.h"
-#include "CPU.h"
+#include <cstring>
+#include "gvm_machine/Memory.h"
+#include "gvm_machine/CPU.h"
 #include "util.h"
-#include "Motherboard.h"
+#include "gvm_machine/Motherboard.h"
 
 int main()
 {
-    auto memory = Memory(2048);
+    static auto memory = Memory(2048);
     memory.write8(0, 0x4041424344454647);
     memory.write8(8, 0x48494A4B4C4D4E4F);
-    memory.write8(16, 0x5051525354555657);
-    memory.write8(24, 0x58595A5B5C5D5E5F);
-    memory.dump(1, 32);
-    auto cpu = CPU();
-    cpu.dump();
+//    memory.dump(1, 32);
+    static auto cpu = CPU();
+//    cpu.dump();
 
-    auto motherboard = Motherboard();
+    static auto motherboard = Motherboard();
     motherboard.cpu = &cpu;
+    motherboard.memory = &memory;
 
+    printf("%d\n", util::parity(2));
     return 0;
 }
