@@ -11,7 +11,7 @@ class Assembler
 public:
     char registerIndex(char *name);
     unsigned long toGLong(const char *string);
-    const char *assembleSingleLine(const char *line);
+    const char *assembleSingleLine(const char *line, int line_no = 1);
 
     unsigned long errno = 0;
 };

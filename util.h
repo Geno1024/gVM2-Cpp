@@ -14,16 +14,19 @@ public:
     // Converts from unsigned long to binary string.
     static char *binary(unsigned long l);
 
-    // Force VM to exit. Emergency situation?
-    static char force_exit(int status, const char *message) __attribute__ ((__noreturn__));
+    // Unconditionally force VM to exit. Emergency situation?
+    static void force_exit(int status, const char *message, ...) __attribute__ ((__noreturn__));
+
+    // Conditionally force VM to exit.
+    static void force_exit_if(bool condition, int status, const char *message, ...);
 
     // Check bitwise parity of input.
     static bool parity(unsigned long l);
 
     // Simple string hash for switch.
-    constexpr static int hash(const char *string)
+    constexpr static long hash(const char *string)
     {
-        int result = 0;
+        long result = 0;
         while (*string) result = (result << 8) + *string++;
         return result;
     };

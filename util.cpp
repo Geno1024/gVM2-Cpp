@@ -5,6 +5,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cctype>
+#include <cstdarg>
 #include "util.h"
 
 char util::alloc[64] = {48};
@@ -16,10 +17,25 @@ char *util::binary(unsigned long l)
     return alloc;
 }
 
-char util::force_exit(int status, const char *message)
+void util::force_exit(int status, const char *format, ...)
 {
-    fprintf(stderr, "%s", message);
+    va_list args;
+    va_start(args, format);
+    vfprintf(stderr, format, args);
+    va_end(args);
     exit(status);
+}
+
+void util::force_exit_if(bool condition, int status, const char *format, ...)
+{
+    if (condition)
+    {
+        va_list args;
+        va_start(args, format);
+        vfprintf(stderr, format, args);
+        va_end(args);
+        exit(status);
+    }
 }
 
 bool util::parity(unsigned long l)
