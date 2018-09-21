@@ -20,5 +20,7 @@ int main()
 
     printf("%d\n", util::parity(2));
 
+    printf("%s", util::trim((char *)"  acb   "));
+
     return 0;
 }

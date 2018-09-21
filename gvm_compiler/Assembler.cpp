@@ -44,23 +44,37 @@ const char *Assembler::assembleSingleLine(const char *line)
     char *trimL = const_cast<char *>(line);
     while (isspace(*trimL)) trimL++;
     // trim right comments
-    char trimR[strpbrk(trimL, "//") - trimL];
+    char trimR[strpbrk(trimL, "//") - trimL + 1];
+    trimR[sizeof(trimR) - 1] = 0;
     strncpy(trimR, trimL, strpbrk(trimL, "//") - trimL);
+
     // trim right spaces
+    printf("%zu\n", strlen(trimR));
     while (isspace(trimR[strlen(trimR) - 1])) trimR[strlen(trimR) - 1] = 0;
     // checkpoint
     for (int i = 0; i < strlen(trimR); ++i) trimR[i] = (char) toupper(trimR[i]);
 
     // process
-    // get operand
+    // get operator
     char op[10];
     sscanf(trimR, "%s", op);
+
+    // get operand
+    char opr[3][10];
+
+
     switch (util::hash(op))
     {
         case util::hash("NOP"):
             return "0000";
         case util::hash("STOP"):
             return "0001";
+        case util::hash("INC"):
+        {
+            static char output[] = "0100";
+            output[4] = registerIndex(op);
+            return output;
+        }
         default:
             util::force_exit(-1, "invalid op");
     }
@@ -69,5 +83,5 @@ const char *Assembler::assembleSingleLine(const char *line)
 int main(int argc, char *argv[])
 {
     printf("%ld\n", Assembler().toGLong("1abc@15"));
-    printf("%s", Assembler().assembleSingleLine("   nop  // "));
+    printf("%s", Assembler().assembleSingleLine("   inc ax  // "));
 }

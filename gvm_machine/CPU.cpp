@@ -182,18 +182,58 @@ void CPU::run(unsigned long ip)
                 }
                 break;
             case 0x03: // indirect multiplication and division
+            unsigned long op, h1, l1, h2, l2, l, m, h;
                 switch (right)
                 {
                     case 0x00:
-                        unsigned long op = memory->read8(IP + 2);
+                        op = memory->read8(IP + 2);
 
-                        unsigned long h1 = XA >> 32, l1 = XA & 0xffffffff;
-                        unsigned long h2 = op >> 32, l2 = op & 0xffffffff;
+                        h1 = XA >> 32, l1 = XA & 0xffffffff;
+                        h2 = op >> 32, l2 = op & 0xffffffff;
 
-                        unsigned long l = l1 * l2, m = l1 * h2 + l2 * h1, h = h1 * h2;
+                        h = h1 * h2, m = l1 * h2 + l2 * h1, l = l1 * l2;
 
-                        XA = (l >> 32) + (m << 32) + l & 0xffffffff;
-                        XE = (h & 0xffffffff00000000) + (m >> 32) + h & 0xffffffff;
+                        XE = h + (m >> 32);
+                        XA = l + ((m & 0xffffffffL) << 32);
+
+                        IP += 10;
+                        break;
+                    case 0x01:
+                        op = memory->read8(IP + 2);
+
+                        h1 = XB >> 32, l1 = XB & 0xffffffff;
+                        h2 = op >> 32, l2 = op & 0xffffffff;
+
+                        h = h1 * h2, m = l1 * h2 + l2 * h1, l = l1 * l2;
+
+                        XF = h + (m >> 32);
+                        XB = l + ((m & 0xffffffffL) << 32);
+
+                        IP += 10;
+                        break;
+                    case 0x02:
+                        op = memory->read8(IP + 2);
+
+                        h1 = XC >> 32, l1 = XC & 0xffffffff;
+                        h2 = op >> 32, l2 = op & 0xffffffff;
+
+                        h = h1 * h2, m = l1 * h2 + l2 * h1, l = l1 * l2;
+
+                        XG = h + (m >> 32);
+                        XC = l + ((m & 0xffffffffL) << 32);
+
+                        IP += 10;
+                        break;
+                    case 0x04:
+                        op = memory->read8(IP + 2);
+
+                        h1 = XD >> 32, l1 = XD & 0xffffffff;
+                        h2 = op >> 32, l2 = op & 0xffffffff;
+
+                        h = h1 * h2, m = l1 * h2 + l2 * h1, l = l1 * l2;
+
+                        XH = h + (m >> 32);
+                        XD = l + ((m & 0xffffffffL) << 32);
 
                         IP += 10;
                         break;

@@ -4,6 +4,7 @@
 
 #include <cstdio>
 #include <cstdlib>
+#include <cctype>
 #include "util.h"
 
 char util::alloc[64] = {48};
@@ -31,3 +32,13 @@ bool util::parity(unsigned long l)
     return static_cast<bool>((y ^ y >> 32) & 1);
 }
 
+char *util::trim(char *string)
+{
+    // trim left spaces
+    while (isspace(*string)) string++;
+
+    // trim right spaces
+    size_t right = strlen(string);
+    while (isspace(string[right - 1])) right--;
+    return strndup(string, right);
+}

@@ -28,6 +28,9 @@ public:
         return result;
     };
 
+    // Trim string.
+    static char *trim(char *string);
+
 private:
     static char alloc[64];
 };
