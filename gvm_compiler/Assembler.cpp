@@ -21,7 +21,7 @@ char Assembler::registerIndex(char *name)
     else return static_cast<char>(name[1] - 0x31);
 }
 
-unsigned long Assembler::toGlong(const char *string)
+unsigned long Assembler::toGLong(const char *string)
 {
     const char *pos = strchr(string, '@');
     if (pos) // contains '@'
@@ -41,31 +41,33 @@ const char *Assembler::assembleSingleLine(const char *line)
 {
     // pre process
     // trim left spaces
-    char *ltrim = const_cast<char *>(line);
-    while (isspace(*ltrim)) ltrim++;
+    char *trimL = const_cast<char *>(line);
+    while (isspace(*trimL)) trimL++;
     // trim right comments
-    char rtrim[strpbrk(ltrim, "//") - ltrim];
-    strncpy(rtrim, ltrim, strpbrk(ltrim, "//") - ltrim);
+    char trimR[strpbrk(trimL, "//") - trimL];
+    strncpy(trimR, trimL, strpbrk(trimL, "//") - trimL);
     // trim right spaces
-    while (isspace(rtrim[strlen(rtrim) - 1])) rtrim[strlen(rtrim) - 1] = 0;
+    while (isspace(trimR[strlen(trimR) - 1])) trimR[strlen(trimR) - 1] = 0;
     // checkpoint
-    for (int i = 0; i < strlen(rtrim); ++i) rtrim[i] = static_cast<char>(toupper(rtrim[i]));
+    for (int i = 0; i < strlen(trimR); ++i) trimR[i] = (char) toupper(trimR[i]);
 
     // process
     // get operand
     char op[10];
-    sscanf(rtrim, "%s", op);
+    sscanf(trimR, "%s", op);
     switch (util::hash(op))
     {
-        case (((('N' << 8) + 'O') << 8) + 'P') << 8: return "0000";
+        case util::hash("NOP"):
+            return "0000";
+        case util::hash("STOP"):
+            return "0001";
+        default:
+            util::force_exit(-1, "invalid op");
     }
-    if (strcmp("NOP", op)) return "0000";
-    else if (strcmp("STOP", op)) return "0001";
-    else if (strcmp("INC", op))
 }
 
 int main(int argc, char *argv[])
 {
-    printf("%ld\n", Assembler().toGlong("1abc@15"));
-    Assembler().assembleSingleLine("   a %x   // ");
+    printf("%ld\n", Assembler().toGLong("1abc@15"));
+    printf("%s", Assembler().assembleSingleLine("   nop  // "));
 }

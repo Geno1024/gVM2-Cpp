@@ -30,3 +30,4 @@ bool util::parity(unsigned long l)
     y = y ^ y >> 16;
     return static_cast<bool>((y ^ y >> 32) & 1);
 }
+

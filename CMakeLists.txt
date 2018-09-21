@@ -15,5 +15,7 @@ target_link_libraries(gvm memory)
 target_link_libraries(gvm cpu)
 target_link_libraries(gvm util)
 
-add_executable(gvmas gvm_compiler/Assembler.h gvm_compiler/Assembler.cpp)
-target_link_libraries(gvmas util)
+add_executable(gvm-as gvm_compiler/Assembler.h gvm_compiler/Assembler.cpp)
+target_link_libraries(gvm-as util)
+
+add_executable(gvm-hex gvm_compiler/HexIO.h gvm_compiler/HexIO.cpp)

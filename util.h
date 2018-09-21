@@ -6,6 +6,8 @@
 #define GVM2_UTIL_H
 
 
+#include <cstring>
+
 class util
 {
 public:
@@ -17,6 +19,14 @@ public:
 
     // Check bitwise parity of input.
     static bool parity(unsigned long l);
+
+    // Simple string hash for switch.
+    constexpr static int hash(const char *string)
+    {
+        int result = 0;
+        while (*string) result = (result << 8) + *string++;
+        return result;
+    };
 
 private:
     static char alloc[64];

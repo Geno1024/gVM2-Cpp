@@ -10,7 +10,7 @@ class Assembler
 {
 public:
     char registerIndex(char *name);
-    unsigned long toGlong(const char *string);
+    unsigned long toGLong(const char *string);
     const char *assembleSingleLine(const char *line);
 
     unsigned long errno = 0;

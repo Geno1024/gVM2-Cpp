@@ -19,5 +19,6 @@ int main()
     motherboard.memory = &memory;
 
     printf("%d\n", util::parity(2));
+
     return 0;
 }
